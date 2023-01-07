@@ -41,12 +41,10 @@ def run(name):
 
 if __name__ == "__main__":
     parser = ArgumentParser()
-    parser.add_argument("method")
-    parser.add_argument("file_name")
+    parser.add_argument("file")
+    parser.add_argument("-c", "--compile", action="store_true")
     args = parser.parse_args()
-    if args.method == "compile":
-        compile(args.file_name)
-    elif args.method == "run":
-        run(args.file_name)
+    if args.compile:
+        compile(args.file.replace(".ecr",""))
     else:
-        print("Specify a valid method!")
+        run(args.file.replace(".ewc",""))
