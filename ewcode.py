@@ -8,7 +8,7 @@ import pickle
 import sys
 import os
 
-version = "1.0.0"
+version = "0.1"
 
 def compile(name):
     with open(name+".ecr", "r") as f:

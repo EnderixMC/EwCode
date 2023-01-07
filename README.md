@@ -1,4 +1,4 @@
-# EwCode - Version 1.0
+# EwCode
 The most disgusting programming language!
 ## Usage
 1. Write some code
