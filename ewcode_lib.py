@@ -17,7 +17,7 @@ def Execute(code):
                 for result in results:
                     arg = (arg[0],arg[1].replace(result, variables[result[1:len(result)-1]]))
                 try:
-                    ans = eval(re.search("^[+-]?\d*\.?\d+(?:[-+][+-]?\d*\.?\d+)+$", arg[1])[0])#^\d+(?:(?:\+|-|/|\*)\d+)*$
+                    ans = eval(re.search("^[+-]?\d*\.?\d+(?:[-+/*][+-]?\d*\.?\d+)+$", arg[1])[0])#^\d+(?:(?:\+|-|/|\*)\d+)*$
                     args.append(int(ans))
                 except TypeError as e:
                     raise SyntaxError("Not a valid equation!")
