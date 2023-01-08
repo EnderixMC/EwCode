@@ -1,4 +1,5 @@
 from time import sleep
+import re
 
 delay = 0.01
 def Execute(code):
@@ -7,9 +8,19 @@ def Execute(code):
         function = i[0][1]
         i.pop(0)
         args = []
+        arg_types = []
         for arg in i:
             if arg[0] == "VAR":
                 args.append(variables[arg[1]])
+            elif arg[0] == "EQU":
+                results = re.findall("{+\w}", arg[1])
+                for result in results:
+                    arg = (arg[0],arg[1].replace(result, variables[result[1:len(result)-1]]))
+                try:
+                    ans = eval(re.search("^[+-]?\d*\.?\d+(?:[-+][+-]?\d*\.?\d+)+$", arg[1])[0])#^\d+(?:(?:\+|-|/|\*)\d+)*$
+                    args.append(int(ans))
+                except TypeError as e:
+                    raise SyntaxError("Not a valid equation!")
             else:
                 args.append(arg[1])
         for command in commands:

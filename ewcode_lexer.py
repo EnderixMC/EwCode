@@ -83,12 +83,13 @@ def lex_var(line):
 def lex_equ(line):
     line = line[1:]
     string = ""
-    for c in line:
+    for i in range(len(line)):
+        c = line[i]
         if c == "]":
             break
+        #if c == "{":
+        #    typ, tok, consumed = lex_var(line[lexeme_count:])
+        #elif lexeme == "[":
+        #    typ, tok, consumed = lex_equ(line[lexeme_count:])
         string += c
-    try:
-        ans = eval(re.search("^\d+(?:(?:\+|-|/|\*)\d+)*$", string)[0])
-    except TypeError:
-        raise SyntaxError()
-    return "NUM", int(ans), len(string)+2
+    return "EQU", string, len(string)+2

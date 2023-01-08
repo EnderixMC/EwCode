@@ -45,6 +45,16 @@ if __name__ == "__main__":
     parser.add_argument("-c", "--compile", action="store_true")
     args = parser.parse_args()
     if args.compile:
-        compile(args.file.replace(".ecr",""))
+        try:
+            compile(args.file.replace(".ecr",""))
+        except Exception as e:
+            print("[Error]:", e)
+            raise e #REMOVE LATER
+            sys.exit()
     else:
-        run(args.file.replace(".ewc",""))
+        try:
+            run(args.file.replace(".ewc",""))
+        except Exception as e:
+            print("[Error]:", e)
+            raise e # REMOVE LATER
+            sys.exit()
