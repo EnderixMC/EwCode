@@ -13,7 +13,7 @@ def Execute(code):
             if arg[0] == "VAR":
                 args.append(variables[arg[1]])
             elif arg[0] == "EQU":
-                results = re.findall("{+\w}", arg[1])
+                results = re.findall("{\w+}", arg[1])
                 for result in results:
                     arg = (arg[0],arg[1].replace(result, variables[result[1:len(result)-1]]))
                 try:
