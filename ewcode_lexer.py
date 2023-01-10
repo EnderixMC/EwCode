@@ -3,10 +3,22 @@ import re
 def Lex(raw):
     raw = raw.split("\n")
     final = []
-    for line in raw:
+    skips = 0
+    for i in range(len(raw)):
+        if skips > 0:
+            skips -= 1
+            continue
+        line = raw[i]
         line_lex = []
         lexeme_count = 0
         if line.startswith("@"):
+            continue
+        result = re.findall("^func ([a-zA-Z]+):$", line)
+        if result:
+            raw2 = raw
+            raw2[i] = result[0]
+            typ, tok, skips = lex_custom_func(raw2, i)
+            final.append([(typ,tok)])
             continue
         typ, tok, consumed = lex_func(line)
         line_lex.append((typ,tok))
@@ -45,7 +57,7 @@ def lex_func(line):
         if c == ":":
             break
         if not c.isalpha():
-            raise SyntaxError()
+            raise SyntaxError(line)
         string += c
     return 'FUNC', string, len(string)+1
 
@@ -117,3 +129,13 @@ def lex_func_var(line):
             break
         string += c
     return "FUNC", Lex(string), len(string)+2
+
+def lex_custom_func(raw, i):
+    raw = raw[i:]
+    inner = []
+    for i in raw[1:]:
+        if i == "^":
+            break
+        inner.append(i)
+    lexed = Lex("\n".join(inner))
+    return "CUSTOM_FUNC", [raw[0],lexed], len(inner)+1

@@ -36,6 +36,8 @@ def run(name):
     with open(os.path.join(path,"main"), "rb") as f:
         if not has_ver:
             print("[Warning]: This file contains no version. The code inside might be incompatible")
+        #for i in pickle.load(f):
+        #    print(i)
         Execute(pickle.load(f))
     shutil.rmtree(path)
 
@@ -57,4 +59,6 @@ if __name__ == "__main__":
         except Exception as e:
             print("[Error]:", e)
             raise e # REMOVE LATER
+            sys.exit()
+        except KeyboardInterrupt:
             sys.exit()

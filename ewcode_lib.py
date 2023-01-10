@@ -1,5 +1,6 @@
 from MathEval import calculate
 from random import randint
+from copy import deepcopy
 from time import sleep
 import re
 
@@ -8,6 +9,9 @@ def Execute(code_tmp):
     code = list(code_tmp)
     for i in code:
         sleep(delay)
+        if i[0][0] == "CUSTOM_FUNC":
+            functions[i[0][1][0]] = i[0][1][1]
+            continue
         function = i[0][1]
         i.pop(0)
         args = []
@@ -24,20 +28,24 @@ def Execute(code_tmp):
                     args.append(int(ans))
                 except IndexError as e:
                     raise SyntaxError("Not a valid equation!")
-            elif arg[0] == "BOOL":
-                results = re.findall("{\w+}", arg[1])
-                for result in results:
-                    arg = (arg[0],arg[1].replace(result, str(variables[result[1:len(result)-1]])))
-                try:
-                    ans = eval(re.search("^(?:(True|False)(==|!=)(True|False)|\d+(==|!=|<|>|<=|>=)\d+)$", arg[1])[0])
-                    args.append(ans)
-                except TypeError as e:
-                    raise SyntaxError("Not a valid statement!")
+            elif arg[0] == "BOOL" and not (function == "loop" or function == "looprange"):
+                args.append(ProcessBool(arg[1]))
             else:
                 args.append(arg[1])
         for command in commands:
             if function == command.get_usage():
+                #print(command.get_usage(), args)
                 command(args).execute()
+
+def ProcessBool(statement):
+    results = re.findall("{\w+}", statement)
+    for result in results:
+        statement = statement.replace(result, str(variables[result[1:len(result)-1]]))
+    try:
+        ans = eval(re.search("^(?:(True|False)|(True|False)(==|!=)(True|False)|\d+(==|!=|<|>|<=|>=)\d+)$", statement)[0])
+        return ans
+    except TypeError as e:
+        raise SyntaxError("Not a valid statement!")
 
 class Command:
     arguments = 0
@@ -45,7 +53,7 @@ class Command:
         if self.arguments == len(args) or self.arguments == -1:
             self.args = args
         else:
-            raise InvalidArgumentException()
+            raise InvalidArgumentException(f"{self.arguments} : {len(args)}")
     def get_usage():
         return None
     def execute(self):
@@ -87,7 +95,7 @@ class If(Command):
         return "if"
     def execute(self):
         if self.args[0]:
-            Execute(self.args[1])
+            Execute(deepcopy(self.args[1]))
 
 class LoopRange(Command):
     arguments = 2
@@ -95,19 +103,26 @@ class LoopRange(Command):
         return "looprange"
     def execute(self):
         for i in range(self.args[0]):
-            Execute(self.args[1])
+            Execute(deepcopy(self.args[1]))
 
 class Loop(Command):
     arguments = 2
     def get_usage():
         return "loop"
     def execute(self):
-        while self.args[0]:
-            print(self.args[1])
-            Execute(self.args[1])
+        while ProcessBool(deepcopy(self.args[0])):
+            Execute(deepcopy(self.args[1]))
+
+class Call(Command):
+    arguments = 1
+    def get_usage():
+        return "call"
+    def execute(self):
+        Execute(deepcopy(functions[self.args[0]]))
 
 class InvalidArgumentException (Exception):
     pass
 
-commands = [Print,Set,Input,Random,If,Loop,LoopRange]
+commands = [Print,Set,Input,Random,If,Loop,LoopRange,Call]
+functions = {}
 variables = {}
