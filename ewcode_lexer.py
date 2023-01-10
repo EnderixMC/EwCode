@@ -16,7 +16,11 @@ def Lex(raw):
             if lexeme == "{":
                 typ, tok, consumed = lex_var(line[lexeme_count:])
             elif lexeme == "[":
-                typ, tok, consumed = lex_equ(line[lexeme_count:])                
+                typ, tok, consumed = lex_equ(line[lexeme_count:])
+            elif lexeme == "(":
+                typ, tok, consumed = lex_bool(line[lexeme_count:])
+            elif lexeme == "-":
+                typ, tok, consumed = lex_func_var(line[lexeme_count:])
             elif lexeme == '"' or lexeme == "'":
                 typ, tok, consumed = lex_str(line[lexeme_count:])
             elif lexeme.isdigit():
@@ -93,3 +97,23 @@ def lex_equ(line):
         #    typ, tok, consumed = lex_equ(line[lexeme_count:])
         string += c
     return "EQU", string, len(string)+2
+
+def lex_bool(line):
+    line = line[1:]
+    string = ""
+    for i in range(len(line)):
+        c = line[i]
+        if c == ")":
+            break
+        string += c
+    return "BOOL", string, len(string)+2
+
+def lex_func_var(line):
+    line = line[1:]
+    string = ""
+    for i in range(len(line)):
+        c = line[i]
+        if c == "-":
+            break
+        string += c
+    return "FUNC", Lex(string), len(string)+2

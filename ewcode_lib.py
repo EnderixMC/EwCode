@@ -1,8 +1,11 @@
+from MathEval import calculate
+from random import randint
 from time import sleep
 import re
 
 delay = 0.01
-def Execute(code):
+def Execute(code_tmp):
+    code = list(code_tmp)
     for i in code:
         sleep(delay)
         function = i[0][1]
@@ -15,12 +18,21 @@ def Execute(code):
             elif arg[0] == "EQU":
                 results = re.findall("{\w+}", arg[1])
                 for result in results:
-                    arg = (arg[0],arg[1].replace(result, variables[result[1:len(result)-1]]))
+                    arg = (arg[0],arg[1].replace(result, str(variables[result[1:len(result)-1]])))
                 try:
-                    ans = eval(re.search("^[+-]?\d*\.?\d+(?:[-+/*][+-]?\d*\.?\d+)+$", arg[1])[0])#^\d+(?:(?:\+|-|/|\*)\d+)*$
+                    ans = calculate(arg[1])
                     args.append(int(ans))
-                except TypeError as e:
+                except IndexError as e:
                     raise SyntaxError("Not a valid equation!")
+            elif arg[0] == "BOOL":
+                results = re.findall("{\w+}", arg[1])
+                for result in results:
+                    arg = (arg[0],arg[1].replace(result, str(variables[result[1:len(result)-1]])))
+                try:
+                    ans = eval(re.search("^(?:(True|False)(==|!=)(True|False)|\d+(==|!=|<|>|<=|>=)\d+)$", arg[1])[0])
+                    args.append(ans)
+                except TypeError as e:
+                    raise SyntaxError("Not a valid statement!")
             else:
                 args.append(arg[1])
         for command in commands:
@@ -62,8 +74,40 @@ class Input(Command):
     def execute(self):
         variables[self.args[0]] = input(self.args[1])
 
+class Random(Command):
+    arguments = 3
+    def get_usage():
+        return "random"
+    def execute(self):
+        variables[self.args[0]] = randint(self.args[1],self.args[2])
+
+class If(Command):
+    arguments = 2
+    def get_usage():
+        return "if"
+    def execute(self):
+        if self.args[0]:
+            Execute(self.args[1])
+
+class LoopRange(Command):
+    arguments = 2
+    def get_usage():
+        return "looprange"
+    def execute(self):
+        for i in range(self.args[0]):
+            Execute(self.args[1])
+
+class Loop(Command):
+    arguments = 2
+    def get_usage():
+        return "loop"
+    def execute(self):
+        while self.args[0]:
+            print(self.args[1])
+            Execute(self.args[1])
+
 class InvalidArgumentException (Exception):
     pass
 
-commands = [Print,Set,Input]
+commands = [Print,Set,Input,Random,If,Loop,LoopRange]
 variables = {}
