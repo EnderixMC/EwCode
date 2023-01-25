@@ -9,8 +9,7 @@ import sys
 import os
 
 __version__ = "0.2.1"
-credits = f"""Ewcode v{__version__} by EnderixMC
-Github Repo: https://github.com/EnderixMC/EwCode"""
+credits = f"Ewcode v{__version__} by EnderixMC (https://github.com/EnderixMC/EwCode)"
 
 def compile(name):
     with open(name+".ecr", "r") as f:
@@ -46,6 +45,7 @@ def run(name):
 if __name__ == "__main__":
     parser = ArgumentParser()
     parser.add_argument('-v', '--version', action='version', version=f"EwCode {__version__}")
+    parser.add_argument('--credits', action='version', version=credits)
     parser.add_argument("file")
     parser.add_argument("-c", "--compile", action="store_true")
     args = parser.parse_args()
