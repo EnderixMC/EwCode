@@ -8,7 +8,7 @@ import pickle
 import sys
 import os
 
-__version__ = "0.2.0"
+__version__ = "0.2.1"
 credits = f"""Ewcode v{__version__} by EnderixMC
 Github Repo: https://github.com/EnderixMC/EwCode"""
 
