@@ -8,7 +8,9 @@ import pickle
 import sys
 import os
 
-version = "0.2"
+__version__ = "0.2.0"
+credits = f"""Ewcode v{__version__} by EnderixMC
+Github Repo: https://github.com/EnderixMC/EwCode"""
 
 def compile(name):
     with open(name+".ecr", "r") as f:
@@ -18,7 +20,7 @@ def compile(name):
         with zipfile.open("main", "w") as f:
             pickle.dump(data, f)
         with zipfile.open("code.properties", "w") as f:
-            f.write(f"version={version}".encode("utf"))
+            f.write(f"version={__version__}".encode("utf"))
 
 def run(name):
     path = os.path.join(tempfile.gettempdir(),name+"_ecode")
@@ -28,11 +30,11 @@ def run(name):
     with open(os.path.join(path,"code.properties"), "r") as f:
         for l in f.readlines():
             if l.startswith("version="):
-                if l[8:] == version:
+                if l[8:] == __version__:
                     has_ver = True
                     break
                 else:
-                    raise Exception(f"Incorrect version!\nEwCode version: {version}\nFile version: {l[8:]}")
+                    raise Exception(f"Incorrect version!\nEwCode version: {__version__}\nFile version: {l[8:]}")
     with open(os.path.join(path,"main"), "rb") as f:
         if not has_ver:
             print("[Warning]: This file contains no version. The code inside might be incompatible")
@@ -43,6 +45,7 @@ def run(name):
 
 if __name__ == "__main__":
     parser = ArgumentParser()
+    parser.add_argument('-v', '--version', action='version', version=f"EwCode {__version__}")
     parser.add_argument("file")
     parser.add_argument("-c", "--compile", action="store_true")
     args = parser.parse_args()
