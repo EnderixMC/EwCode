@@ -2,7 +2,11 @@ from MathEval import calculate
 from random import randint
 from copy import deepcopy
 from time import sleep
+import sys
+import os
 import re
+
+commands = []
 
 delay = 0.01
 def Execute(code_tmp):
@@ -120,9 +124,20 @@ class Call(Command):
     def execute(self):
         Execute(deepcopy(functions[self.args[0]]))
 
+class Import(Command):
+    arguments = 1
+    def get_usage():
+        return "import"
+    def execute(self):
+        global commands
+        filepath = sys.argv[1].split("\\")
+        path = filepath[len(filepath)-2]
+        sys.path.append(os.path.abspath(path))
+        commands = commands+__import__(self.args[0]).export
+
 class InvalidArgumentException (Exception):
     pass
 
-commands = [Print,Set,Input,Random,If,Loop,LoopRange,Call]
+commands = commands+[Print,Set,Input,Random,If,Loop,LoopRange,Call,Import]
 functions = {}
 variables = {}
