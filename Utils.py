@@ -20,6 +20,6 @@ class Run(Command):
     def get_usage():
         return "run"
     def execute(self):
-        exec(self.args[0])
+        eval(self.args[0])
 
 export = [Run]
