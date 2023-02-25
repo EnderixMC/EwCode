@@ -23,7 +23,7 @@ def compile(name):
 
 def run(name):
     path = os.path.join(tempfile.gettempdir(),name+"_ecode")
-    with ZipFile(name+".ewc", "r") as zipfile:
+    with ZipFile(name, "r") as zipfile:
         zipfile.extractall(path)
     has_ver = False
     with open(os.path.join(path,"code.properties"), "r") as f:
@@ -47,21 +47,13 @@ if __name__ == "__main__":
     parser.add_argument('-v', '--version', action='version', version=f"EwCode {__version__}")
     parser.add_argument('--credits', action='version', version=credits)
     parser.add_argument("file")
-    parser.add_argument("-c", "--compile", action="store_true")
     args = parser.parse_args()
-    if args.compile:
-        try:
-            compile(args.file.replace(".ecr",""))
-        except Exception as e:
-            print("[Error]:", e)
-            raise e #REMOVE LATER
-            sys.exit()
-    else:
-        try:
-            run(args.file.replace(".ewc",""))
-        except Exception as e:
-            print("[Error]:", e)
-            raise e # REMOVE LATER
-            sys.exit()
-        except KeyboardInterrupt:
-            sys.exit()
+    try:
+        compile(args.file.replace(".ecr",""))
+        run(args.file.replace(".ecr",".ewc"))
+    except Exception as e:
+        print("[Error]:", e)
+        raise e # REMOVE LATER
+        sys.exit()
+    except KeyboardInterrupt:
+        sys.exit()
