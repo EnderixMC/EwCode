@@ -6,4 +6,4 @@ The most disgusting programming language!
 3. Compile and run the code using `ewcode "<your ecr file>"` . Replace `<your ecr file>` with the name of the file you stored the your code in. This should generate a file with the same name, but with the `.ewc` extension. **Example:** `ewcode "test.ecr"` -> `test.ewc`
 
 <br /><br /><br />
-**[Documentation](https://github.com/EndericMC/EwCode/wiki)**
+**[Documentation](https://github.com/EnderixMC/EwCode/wiki)**
