@@ -43,7 +43,7 @@ def Lex(raw):
             line_lex.append((typ,tok))
             lexeme_count += consumed
             if lexeme_count < len(line):
-                #print(f"Lexeme: {lexeme_count}, Line Len: {len(line)}, Char: {line[lexeme_count]}")
+                #print(f"Lexeme: {lexeme_count}, Line Length: {len(line)}, Char: {line[lexeme_count]}")
                 if line[lexeme_count] != ",":
                     raise SyntaxError(line_lex)
                 else:
@@ -62,27 +62,37 @@ def lex_func(line):
     return 'FUNC', string, len(string)+1
 
 def lex_num(line):
-    num= ""
+    num = ""
     for c in line:
         if not c.isdigit():
             break
         num += c
     return "NUM", int(num), len(num)
-    
+
+def is_escaped(line, i):
+    if i == 0:
+        return False
+    if line[i-1] == "\\":
+        if is_escaped(line, i-1):
+            return False
+        return True
+    return False
+
 def lex_str(line):
     delimiter = line[0]
     line = line[1:]
     string = ""
+    escapes = 0
     for i in range(len(line)):
         c = line[i]
         if c == delimiter:
-            if not line[i-1] == "\"":
+            if not is_escaped(line, i):
                 break
-            else:
-                string += c
-                continue
+        if c == "\\":
+            escapes += 1
         string += c
-    return "STR", string, len(string)+2
+    string = bytes(string, 'utf-8').decode("unicode_escape")
+    return "STR", string, len(string)+2+escapes
 
 def lex_id(line):
     pass
