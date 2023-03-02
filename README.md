@@ -9,7 +9,7 @@ The most disgusting programming language!
 | --- | --- | --- |
 | Improve import system | Finished | <ul><li>[x] Don't make modules recreate Command class</li></ul> |
 | Test EwCode on multiple platforms | In progress | <ul><li>[x] Windows</li><li>[ ] Mac</li><li>[ ] Linux</li></ul> |
-| Create built-in modules | In progress | <ul><li>[ ] Make imports search in modules directory as well</li><li>[ ] Write some built-in modules</li></ul> |
+| Create built-in modules | In progress | <ul><li>[x] Make imports search in modules directory as well</li><li>[ ] Write some built-in modules</li></ul> |
 
 ## Usage
 1. Write some code

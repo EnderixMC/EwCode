@@ -136,6 +136,11 @@ class Import(Command):
         else:
             filepath.pop(len(filepath)-1)
             path = "\\".join(filepath)
+        module_path = os.path.abspath(sys.argv[0]).split("\\")
+        module_path.pop(len(module_path)-1)
+        module_path.append("modules")
+        module_path = "\\".join(module_path)
+        sys.path.append(module_path)
         sys.path.append(os.path.abspath(path))
         module = __import__(self.args[0])
         commands = commands+module.exports
