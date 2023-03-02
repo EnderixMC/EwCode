@@ -2,6 +2,9 @@
 *.ecr
 *.ewc
 
+#Example files
+test/*.ecr
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
