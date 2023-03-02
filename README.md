@@ -1,5 +1,9 @@
 # EwCode
 The most disgusting programming language!
+## Annoyances
+ - Built-in lag
+ - Wierd syntax
+ - Little documentation
 ## Usage
 1. Write some code
 2. Save the code as a `.ecr` file
