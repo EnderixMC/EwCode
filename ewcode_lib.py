@@ -130,10 +130,15 @@ class Import(Command):
         return "import"
     def execute(self):
         global commands
-        filepath = sys.argv[1].split("\\")
-        path = filepath[len(filepath)-2]
+        filepath = os.path.abspath(sys.argv[1]).split("\\")
+        if len(sys.argv[1].split("\\")) == 1:
+            path = os.curdir
+        else:
+            filepath.pop(len(filepath)-1)
+            path = "\\".join(filepath)
         sys.path.append(os.path.abspath(path))
-        commands = commands+__import__(self.args[0]).exports
+        module = __import__(self.args[0])
+        commands = commands+module.exports
 
 class InvalidArgumentException (Exception):
     pass
