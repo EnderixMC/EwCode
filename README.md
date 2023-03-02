@@ -3,7 +3,7 @@ The most disgusting programming language!
 ## Annoyances
  - Built-in lag
  - Wierd syntax
- - Little documentation
+ - Poorly documented
 ## TODO
 | Task | Status | Finished |
 | --- | --- | --- |
