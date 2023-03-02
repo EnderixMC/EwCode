@@ -4,6 +4,12 @@ The most disgusting programming language!
  - Built-in lag
  - Wierd syntax
  - Little documentation
+## TODO
+| Task | Status | Finished |
+| --- | --- | --- |
+| Improve import system | In progress | <ul><li>[ ] Give modules built-in Command class</li></ul> |
+| Test EwCode on multiple platforms | In progress | <ul><li>[x] Windows</li><li>[ ] Mac</li><li>[ ] Linux</li></ul> |
+
 ## Usage
 1. Write some code
 2. Save the code as a `.ecr` file
