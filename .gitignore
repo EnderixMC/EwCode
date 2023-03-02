@@ -3,7 +3,7 @@
 *.ewc
 
 #Example files
-test/*.ecr
+!test/*.ecr
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
