@@ -7,7 +7,7 @@ The most disgusting programming language!
 ## TODO
 | Task | Status | Finished |
 | --- | --- | --- |
-| Improve import system | In progress | <ul><li>[ ] Give modules built-in Command class</li></ul> |
+| Improve import system | In progress | <ul><li>[x] Don't make modules recreate Command class</li></ul> |
 | Test EwCode on multiple platforms | In progress | <ul><li>[x] Windows</li><li>[ ] Mac</li><li>[ ] Linux</li></ul> |
 
 ## Usage

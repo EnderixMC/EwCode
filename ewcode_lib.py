@@ -133,7 +133,7 @@ class Import(Command):
         filepath = sys.argv[1].split("\\")
         path = filepath[len(filepath)-2]
         sys.path.append(os.path.abspath(path))
-        commands = commands+__import__(self.args[0]).export
+        commands = commands+__import__(self.args[0]).exports
 
 class InvalidArgumentException (Exception):
     pass
