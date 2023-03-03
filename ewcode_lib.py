@@ -145,16 +145,16 @@ class Import(Command):
         return "import"
     def execute(self):
         global commands
-        filepath = os.path.abspath(sys.argv[1]).split("\\")
-        if len(sys.argv[1].split("\\")) == 1:
+        filepath = os.path.abspath(sys.argv[1]).split(os.path.sep)
+        if len(sys.argv[1].split(os.path.sep)) == 1:
             path = os.curdir
         else:
             filepath.pop(len(filepath)-1)
-            path = "\\".join(filepath)
-        module_path = os.path.abspath(sys.argv[0]).split("\\")
+            path = os.path.sep.join(filepath)
+        module_path = os.path.abspath(sys.argv[0]).split(os.path.sep)
         module_path.pop(len(module_path)-1)
         module_path.append("modules")
-        module_path = "\\".join(module_path)
+        module_path = os.path.sep.join(module_path)
         sys.path.append(module_path)
         sys.path.append(os.path.abspath(path))
         module = __import__(self.args[0])
