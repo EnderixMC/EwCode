@@ -38,7 +38,7 @@ def Lex(raw):
             elif lexeme.isdigit():
                 typ, tok, consumed = lex_num(line[lexeme_count:])
             else:
-                print(lexeme)
+                #print(lexeme)
                 raise SyntaxError(line_lex)
             line_lex.append((typ,tok))
             lexeme_count += consumed

@@ -63,6 +63,13 @@ class Command:
     def execute(self):
         return None
 
+class MinArgsCommand(Command):
+    def __init__(self, args):
+        if self.arguments <= len(args):
+            self.args = args
+        else:
+            raise InvalidArgumentException(f"{self.arguments} : {len(args)}")
+
 class Print(Command):
     arguments = -1
     def get_usage():
@@ -72,12 +79,20 @@ class Print(Command):
             print(i, end="")
         print()
 
-class Set(Command):
+class Set(MinArgsCommand):
     arguments = 2
     def get_usage():
         return "set"
     def execute(self):
-        variables[self.args[0]] = self.args[1]
+        final = deepcopy(self.args)
+        final.pop(0)
+        try:
+            final = "".join(final)
+        except TypeError:
+            for i in range(len(final)):
+                final[i] = str(final[i])
+            final = "".join(final)
+        variables[self.args[0]] = final
 
 class Input(Command):
     arguments = 2
