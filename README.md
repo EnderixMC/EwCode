@@ -1,4 +1,4 @@
-# EwCode
+# <img src="icon.png" height="50px" style="position: absolute"><div style="padding-left: 50px">EwCode</div>
 The most disgusting programming language!
 ## Annoyances
  - Built-in lag

@@ -1,2 +1,2 @@
 @echo off
-pyinstaller --onefile --windowed --icon=icon.ico ewcode.py
+pyinstaller --onefile --icon=icon.ico ewcode.py
